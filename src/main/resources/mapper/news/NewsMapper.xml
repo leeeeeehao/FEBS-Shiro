@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.others.mapper.NewsMapper">
+    <resultMap id="baseResultMap" type="cc.mrbird.febs.others.entity.News">
+        <id column="NEWS_ID" jdbcType="VARCHAR" property="newsId" />
+        <result column="NEWS_TITLE" jdbcType="VARCHAR" property="newsTitle" />
+        <result column="NEWS_CONTENT" jdbcType="VARCHAR" property="newsContent" />
+        <result column="NEWS_TYPE" jdbcType="INTEGER" property="newsType" />
+        <result column="NEWS_STATE" jdbcType="INTEGER" property="newsState" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="DEL_FLAG" jdbcType="INTEGER" property="delFlag" />
+        <result column="NEWS_PV" jdbcType="INTEGER" property="newsPv" />
+    </resultMap>
+
+    <update id="delNews" parameterType="java.lang.String">
+        update PD_NEWS set DEL_FLAG = 1 where NEWS_ID = #{newsId}
+    </update>
+
+    <select id="queryNewsCount" resultType="java.lang.Long">
+        select count(1)
+        from PD_NEWS
+        where DEL_FLAG != 1
+
+    </select>
+
+    <select id="queryNews" resultMap="baseResultMap">
+        select *
+        from PD_NEWS
+        where DEL_FLAG != 1
+    </select>
+</mapper>
